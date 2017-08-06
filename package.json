@@ -27,10 +27,13 @@
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
+    "node-sass-chokidar": "0.0.3",
+    "npm-run-all": "^4.0.2",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.0.0",
     "postcss-loader": "2.0.6",
     "promise": "7.1.1",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dev-utils": "^3.0.2",
     "react-dom": "^15.6.1",
@@ -48,9 +51,12 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "test": "node scripts/test.js --env=jsdom",
+    "start-js": "node scripts/start.js",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && node scripts/build.js"
   },
   "devDependencies": {
     "babel-plugin-resolver": "^1.1.0"
@@ -85,11 +91,6 @@
       "json",
       "web.jsx",
       "jsx"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "react-app"
     ]
   },
   "eslintConfig": {

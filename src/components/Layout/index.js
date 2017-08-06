@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 const Layout = props => {
@@ -17,7 +18,7 @@ const Layout = props => {
 }
 
 Layout.propTypes = {
-  children: React.PropTypes.node
+  children: PropTypes.node
 }
 
 export default Layout
