@@ -1,10 +1,10 @@
 import React from 'react'
 import {Route, Switch} from 'react-router'
 // Views
-import Home from '../views/Home'
-import Categories from '../views/Categories'
-import Post from '../views/Post'
-import NotFound from '../views/NotFound'
+import Home from 'views/Home'
+import Categories from 'views/Categories'
+import Post from 'views/Post'
+import NotFound from 'views/NotFound'
 
 const Container = props => {
   return (
