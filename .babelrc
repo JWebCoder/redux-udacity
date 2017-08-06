@@ -1,0 +1,10 @@
+{
+  "plugins": [
+    [
+      "resolver",
+      {
+        "resolveDirs": ["src"]
+      }
+    ]
+  ]
+}
