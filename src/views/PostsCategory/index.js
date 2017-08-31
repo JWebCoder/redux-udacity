@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
 import Layout from 'components/Layout'
+import Post from 'components/Post'
+import Order from 'components/Order'
+import postsService from 'services/posts'
 import { bindActionCreators } from 'redux'
 import * as PostActions from 'reducers/posts/actions'
 import {connect} from 'react-redux'
@@ -17,13 +20,46 @@ const mapDispatchToProps = dispatch => (
 )
 
 class PostsCategory extends Component {
+  componentDidMount() {
+    postsService.getPosts().then(
+      posts => {
+        this.props.actions.setPosts(posts.data)
+      }
+    )
+  }
+
+  voteUp(post) {
+    postsService.upVote(post.id).then(
+      result => {
+        this.props.actions.setPost(result.data)
+      }
+    )
+
+  }
+
+  voteDown(post) {
+    postsService.downVote(post.id).then(
+      result => {
+        this.props.actions.setPost(result.data)
+      }
+    )
+  }
+
   render() {
     return (
       <Layout>
-        <div>
-          Category<br/>
-          {this.props.match.params.category}
-        </div>
+        <Order/>
+        {this.props.posts.items.map(
+          (post, index) => (
+            post.category === this.props.match.params.category?
+            <Post
+              key={index}
+              post={post}
+              onVoteUp={(post) => this.voteUp(post)}
+              onVoteDown={(post) => this.voteDown(post)}
+            />: null
+          )
+        )}
       </Layout>
     )
   }

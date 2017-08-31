@@ -1,13 +1,14 @@
 import React from 'react'
 
 const Post = props => {
-  let title, author, voteScore
+  let {title, author, voteScore} = props.post,
+    onVoteUp = props.onVoteUp,
+    onVoteDown = props.onVoteDown
 
-  ({title, author, voteScore} = props.post)
   return (
     <article className='post'>
       <header>
-        {title} {voteScore}
+        {title} Votes:{voteScore} <button onClick={() => onVoteUp(props.post)}>Vote Up</button> <button onClick={() => onVoteDown(props.post)}>Vote Down</button>
       </header>
       <footer>
         {author}

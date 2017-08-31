@@ -1,21 +1,19 @@
-import {SET_CATEGORIES} from './ActionTypes';
+import {SET_CATEGORIES} from './ActionTypes'
 
 const initialState = {
-  items: [],
-  loaded: false
-};
+  items: []
+}
 
 const navigation = (state = initialState, action) => {
   switch (action.type) {
     case SET_CATEGORIES: {
       return {
-        items: action.categories,
-        loaded: true
+        items: action.categories
       };
     }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default navigation;
+export default navigation

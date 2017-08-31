@@ -20,32 +20,27 @@ const mapDispatchToProps = dispatch => (
 
 class Home extends Component {
   componentDidMount() {
-    if (!this.props.categories.loaded) {
-      categoriesService.getCategories().then(
-        categories => {
-          this.props.actions.setCategories(categories.data)
-        }
-      )
-    }
+    categoriesService.getCategories().then(
+      categories => {
+        this.props.actions.setCategories(categories.data)
+      }
+    )
   }
 
   render() {
     return (
       <Layout>
-        {this.props.categories.loaded && (
-          <ul>
-            {
-              this.props.categories.items.map(
-                category => (
-                  <li>
-                    <Category data={category}></Category>
-                  </li>
-                )
+        <ul>
+          {
+            this.props.categories.items.map(
+              (category, index) => (
+                <li key={index}>
+                  <Category data={category}></Category>
+                </li>
               )
-            }
-          </ul>
-        )}
-
+            )
+          }
+        </ul>
       </Layout>
     )
   }
