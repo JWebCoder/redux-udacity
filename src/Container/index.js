@@ -9,7 +9,7 @@ import NotFound from 'views/NotFound'
 const Container = props => {
   return (
     <Switch>
-      <Route exact={true} path="/" component={Home}/>
+      <Route exact path="/" component={Home}/>
       <Route path="/:category/:post_id" component={Post}/>
       <Route path="/:category" component={Categories}/>
       <Route component={NotFound}/>
