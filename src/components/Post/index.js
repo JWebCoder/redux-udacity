@@ -1,17 +1,20 @@
 import React from 'react'
 
 const Post = props => {
-  let {title, author, voteScore} = props.post,
+  let {title, author, voteScore, comments} = props.post,
     onVoteUp = props.onVoteUp,
     onVoteDown = props.onVoteDown
 
   return (
     <article className='post'>
       <header>
-        {title} Votes:{voteScore} <button onClick={() => onVoteUp(props.post)}>Vote Up</button> <button onClick={() => onVoteDown(props.post)}>Vote Down</button>
+        {title}
+        <div>
+          Votes: {voteScore} <button onClick={() => onVoteUp(props.post)}>Vote Up</button> <button onClick={() => onVoteDown(props.post)}>Vote Down</button>
+        </div>
       </header>
       <footer>
-        {author}
+        {author} Comments: {comments.length}
       </footer>
     </article>
   )

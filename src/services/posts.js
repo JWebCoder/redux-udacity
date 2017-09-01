@@ -1,9 +1,37 @@
 import axios from 'axios'
 
+export const getComments = (id) => {
+  return axios.get(`http://localhost:5001/posts/${id}/comments`,
+    {
+      headers: { Authorization: 'whatever-you-want' }
+    }
+  ).then(
+    result => result.data
+  )
+}
+
 export const getPosts = () => {
   return axios.get('http://localhost:5001/posts',
     {
       headers: { Authorization: 'whatever-you-want' }
+    }
+  ).then(
+    result => {
+      const posts = result.data
+      let promises = posts.map(
+        post => getComments(post.id)
+      )
+
+      return Promise.all(promises).then(
+        (comments) => {
+          return posts.map(
+            (post, index) => {
+              post.comments = comments[index]
+              return post
+            }
+          )
+        }
+      )
     }
   )
 }

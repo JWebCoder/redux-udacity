@@ -1,0 +1,52 @@
+import React, {Component} from 'react'
+import Post from 'components/Post'
+import postsService from 'services/posts'
+import { bindActionCreators } from 'redux'
+import * as PostActions from 'reducers/posts/actions'
+import {connect} from 'react-redux'
+
+const mapStateToProps = null
+
+const mapDispatchToProps = dispatch => (
+  {
+    actions: bindActionCreators(PostActions, dispatch)
+  }
+)
+
+class PostsContainer extends Component {
+  voteUp(post) {
+    postsService.upVote(post.id).then(
+      result => {
+        this.props.actions.setPost(result.data)
+      }
+    )
+
+  }
+
+  voteDown(post) {
+    postsService.downVote(post.id).then(
+      result => {
+        this.props.actions.setPost(result.data)
+      }
+    )
+  }
+
+  render() {
+    return (
+      <section className='posts-container'>
+        {this.props.posts.map(
+          (post, index) => (
+            <Post
+              key={index}
+              post={post}
+              onVoteUp={(post) => this.voteUp(post)}
+              onVoteDown={(post) => this.voteDown(post)}
+            />
+          )
+        )}
+      </section>
+    )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostsContainer)

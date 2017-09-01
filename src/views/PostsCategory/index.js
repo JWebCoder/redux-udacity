@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Layout from 'components/Layout'
-import Post from 'components/Post'
+import PostsContainer from 'components/PostsContainer'
 import Order from 'components/Order'
 import postsService from 'services/posts'
 import { bindActionCreators } from 'redux'
@@ -23,43 +23,20 @@ class PostsCategory extends Component {
   componentDidMount() {
     postsService.getPosts().then(
       posts => {
-        this.props.actions.setPosts(posts.data)
-      }
-    )
-  }
-
-  voteUp(post) {
-    postsService.upVote(post.id).then(
-      result => {
-        this.props.actions.setPost(result.data)
-      }
-    )
-
-  }
-
-  voteDown(post) {
-    postsService.downVote(post.id).then(
-      result => {
-        this.props.actions.setPost(result.data)
+        this.props.actions.setPosts(posts)
       }
     )
   }
 
   render() {
+    const posts = this.props.posts.items.filter(
+      (post) => (post.category === this.props.match.params.category)
+    )
+
     return (
       <Layout>
         <Order/>
-        {this.props.posts.items.map(
-          (post, index) => (
-            post.category === this.props.match.params.category?
-            <Post
-              key={index}
-              post={post}
-              onVoteUp={(post) => this.voteUp(post)}
-              onVoteDown={(post) => this.voteDown(post)}
-            />: null
-          )
-        )}
+        <PostsContainer posts={posts}/>
       </Layout>
     )
   }

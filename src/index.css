@@ -17,3 +17,6 @@ body {
   color: white; }
   .loader.hidden {
     display: none; }
+
+.post {
+  margin-bottom: 20px; }

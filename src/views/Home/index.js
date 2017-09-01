@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Layout from 'components/Layout'
-import Post from 'components/Post'
 import Order from 'components/Order'
+import PostsContainer from 'components/PostsContainer'
 import postsService from 'services/posts'
 import { bindActionCreators } from 'redux'
 import * as PostActions from 'reducers/posts/actions'
@@ -23,24 +23,7 @@ class Home extends Component {
   componentDidMount() {
     postsService.getPosts().then(
       posts => {
-        this.props.actions.setPosts(posts.data)
-      }
-    )
-  }
-
-  voteUp(post) {
-    postsService.upVote(post.id).then(
-      result => {
-        this.props.actions.setPost(result.data)
-      }
-    )
-
-  }
-
-  voteDown(post) {
-    postsService.downVote(post.id).then(
-      result => {
-        this.props.actions.setPost(result.data)
+        this.props.actions.setPosts(posts)
       }
     )
   }
@@ -49,16 +32,7 @@ class Home extends Component {
     return (
       <Layout>
         <Order/>
-        {this.props.posts.items.map(
-          (post, index) => (
-            <Post
-              key={index}
-              post={post}
-              onVoteUp={(post) => this.voteUp(post)}
-              onVoteDown={(post) => this.voteDown(post)}
-            />
-          )
-        )}
+        <PostsContainer posts={this.props.posts.items}/>
       </Layout>
     )
   }
