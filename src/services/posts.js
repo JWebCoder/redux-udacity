@@ -1,5 +1,14 @@
 import axios from 'axios'
 
+const addCommentsToPost = (post) => {
+  return getComments(post.id).then(
+    (comments) => {
+      post.comments = comments
+      return post
+    }
+  )
+}
+
 export const getComments = (id) => {
   return axios.get(`http://localhost:5001/posts/${id}/comments`,
     {
@@ -19,19 +28,10 @@ export const getPosts = () => {
     result => {
       const posts = result.data
       let promises = posts.map(
-        post => getComments(post.id)
+        post => addCommentsToPost(post)
       )
 
-      return Promise.all(promises).then(
-        (comments) => {
-          return posts.map(
-            (post, index) => {
-              post.comments = comments[index]
-              return post
-            }
-          )
-        }
-      )
+      return Promise.all(promises)
     }
   )
 }
@@ -52,6 +52,10 @@ export const upVote = (id) => {
     {
       headers: { Authorization: 'whatever-you-want' }
     }
+  ).then(
+    result => {
+      return addCommentsToPost(result.data)
+    }
   )
 }
 
@@ -62,6 +66,10 @@ export const downVote = (id) => {
     },
     {
       headers: { Authorization: 'whatever-you-want' }
+    }
+  ).then(
+    result => {
+      return addCommentsToPost(result.data)
     }
   )
 }

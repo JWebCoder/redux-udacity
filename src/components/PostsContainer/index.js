@@ -17,7 +17,7 @@ class PostsContainer extends Component {
   voteUp(post) {
     postsService.upVote(post.id).then(
       result => {
-        this.props.actions.setPost(result.data)
+        this.props.actions.setPost(result)
       }
     )
 
@@ -26,7 +26,7 @@ class PostsContainer extends Component {
   voteDown(post) {
     postsService.downVote(post.id).then(
       result => {
-        this.props.actions.setPost(result.data)
+        this.props.actions.setPost(result)
       }
     )
   }
