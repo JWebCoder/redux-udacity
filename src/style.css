@@ -1,0 +1,17 @@
+.post-view-edit .body {
+  margin: 10px 0; }
+
+.post-view-edit .actions {
+  position: fixed;
+  top: 0px;
+  right: 10px; }
+  .post-view-edit .actions .button {
+    margin: 10px; }
+
+.post-view-edit .post-content {
+  margin-bottom: 20px; }
+
+.post-view-edit .comment {
+  margin-top: 20px; }
+  .post-view-edit .comment .button {
+    margin-right: 20px; }

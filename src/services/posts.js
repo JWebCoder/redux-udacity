@@ -36,6 +36,19 @@ export const getPosts = () => {
   )
 }
 
+export const getPost = (id) => {
+  return axios.get(`http://localhost:5001/posts/${id}`,
+    {
+      headers: { Authorization: 'whatever-you-want' }
+    }
+  ).then(
+    result => {
+      const post = result.data
+      return addCommentsToPost(post)
+    }
+  )
+}
+
 export const getPostsByCategory = (category) => {
   return axios.get(`http://localhost:5001/${category}/posts`,
     {
@@ -77,7 +90,8 @@ export const downVote = (id) => {
 const service = {
   getPosts,
   upVote,
-  downVote
+  downVote,
+  getPost
 }
 
 export default service

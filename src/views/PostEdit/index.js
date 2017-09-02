@@ -1,3 +1,4 @@
+/* global history */
 import React, {Component} from 'react'
 import Layout from 'components/Layout'
 import Comment from 'components/Comment'
@@ -5,8 +6,6 @@ import postsService from 'services/posts'
 import { bindActionCreators } from 'redux'
 import * as PostActions from 'reducers/posts/actions'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-
 
 const mapStateToProps = state => (
   {
@@ -48,25 +47,32 @@ class Post extends Component {
     )
   }
 
+  createComment() {
+    console.log(this.newCommentText.value)
+    console.log(this.props.post.id)
+  }
+
+  back() {
+    if (this.props.location.state && this.props.location.state.fromPost) {
+      window.history.back()
+    } else {
+      this.props.history.push({
+        pathname: `/${this.props.post.category}/${this.props.post.id}`
+      })
+    }
+  }
+
   render() {
     if (Object.keys(this.props.post).length > 0) {
-      let {title, body, author, voteScore, comments, id, category} = this.props.post,
+      let {title, body, author, voteScore, comments, id} = this.props.post,
         post = this.props.post
       return(
         <Layout>
           <div className='post-view-edit'>
             <div className='actions'>
-              <Link
-                className='button'
-                to={
-                  {
-                    pathname: `/${category}/${id}/edit`,
-                    state: {fromPost: true}
-                  }
-                }>
-                Edit
-              </Link>
+              <button className='button' onClick={() => this.save(post)}>Save</button>
               <button className='button' onClick={() => this.delete(id)}>Delete</button>
+              <button className='button' onClick={() => this.back()}>Back</button>
             </div>
             <article className='post-content'>
               <header>

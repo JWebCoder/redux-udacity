@@ -1,8 +1,9 @@
-import {SET_POSTS, SET_POST, SET_ORDER} from './ActionTypes'
+import {SET_POSTS, SET_POST, SET_ORDER, SET_CURRENT_POST} from './ActionTypes'
 
 const initialState = {
   items: [],
-  orderType: 'timestamp'
+  orderType: 'timestamp',
+  current: {}
 }
 
 const sort = (posts, sortType) => {
@@ -33,7 +34,14 @@ const posts = (state = initialState, action) => {
         }
       )
       return {
+        ...state,
         items: items
+      }
+    }
+    case SET_CURRENT_POST: {
+      return {
+        ...state,
+        current: action.current
       }
     }
     case SET_ORDER: {

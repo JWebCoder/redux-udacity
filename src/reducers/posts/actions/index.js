@@ -9,6 +9,9 @@ export function setPost(post) {
 }
 
 export function setOrder(order) {
-  console.log(order)
   return {type: types.SET_ORDER, orderType: order}
+}
+
+export function setCurrentPost(current) {
+  return {type: types.SET_CURRENT_POST, current}
 }

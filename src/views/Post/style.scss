@@ -1,0 +1,15 @@
+.post-view {
+  .body {
+    margin: 10px 0;
+  }
+
+  .actions {
+    position: fixed;
+    top: 0px;
+    right: 10px;
+
+    .button {
+      margin: 10px
+    }
+  }
+}
