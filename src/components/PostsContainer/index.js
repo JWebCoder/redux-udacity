@@ -20,7 +20,6 @@ class PostsContainer extends Component {
         this.props.actions.setPost(result)
       }
     )
-
   }
 
   voteDown(post) {

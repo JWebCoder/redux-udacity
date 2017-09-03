@@ -45,7 +45,16 @@ class Post extends Component {
       result => {
         this.props.actions.setPost(result)
         this.props.actions.setCurrentPost(result)
-        console.log(result)
+      }
+    )
+  }
+
+  deletePost() {
+    postsService.deletePost(this.props.post.id).then(
+      result => {
+        this.props.history.push({
+          pathname: `/`
+        })
       }
     )
   }
@@ -90,7 +99,7 @@ class Post extends Component {
                 }>
                 Edit
               </Link>
-              <button className='button' onClick={() => this.delete(id)}>Delete</button>
+              <button className='button' onClick={() => this.deletePost()}>Delete</button>
             </div>
             <article className='post-content'>
               <header>

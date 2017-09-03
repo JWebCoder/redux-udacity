@@ -30,6 +30,15 @@ const Comment = props => {
     )
   }
 
+  const deleteComment = () => {
+    postsService.deleteComment(props.data.id).then(
+      result => {
+        props.actions.deleteComment(result.id, result.parentId)
+        props.actions.setCurrentPostFromStore(result.parentId)
+      }
+    )
+  }
+
   let {body, author, id, voteScore} = props.data
 
   return (
@@ -40,7 +49,7 @@ const Comment = props => {
       {body}
       <footer>
         <Link className='button' to={`/comment/${id}`}>Edit</Link>
-        <button className='button' onClick={() => this.delete(id)}>Delete</button>
+        <button className='button' onClick={() => deleteComment(id)}>Delete</button>
       </footer>
     </article>
   )

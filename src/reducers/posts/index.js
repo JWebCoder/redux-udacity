@@ -1,4 +1,13 @@
-import {SET_POSTS, SET_POST, SET_ORDER, SET_CURRENT_POST, SET_CURRENT_POST_FROM_STORE, UPDATE_COMMENT} from './ActionTypes'
+import {
+  SET_POSTS,
+  SET_POST,
+  SET_ORDER,
+  SET_CURRENT_POST,
+  SET_CURRENT_POST_FROM_STORE,
+  UPDATE_COMMENT,
+  DELETE_COMMENT,
+  DELETE_POST
+} from './ActionTypes'
 
 const initialState = {
   items: [],
@@ -87,6 +96,33 @@ const posts = (state = initialState, action) => {
           }
           return item
         }
+      )
+
+      return {
+        ...state,
+        items: items
+      }
+    }
+    case DELETE_COMMENT: {
+      const items = state.items.map(
+        item => {
+          if (item.id === action.postId) {
+            item.comments = item.comments.filter(
+              comment => comment.id !== action.commentId
+            )
+          }
+          return item
+        }
+      )
+
+      return {
+        ...state,
+        items: items
+      }
+    }
+    case DELETE_POST: {
+      const items = state.items.filter(
+        item => item.id !== action.postId
       )
 
       return {

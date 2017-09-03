@@ -26,7 +26,10 @@ export const getPosts = () => {
     }
   ).then(
     result => {
-      const posts = result.data
+      const posts = result.data.filter(
+        post => !post.deleted
+      )
+
       let promises = posts.map(
         post => addCommentsToPost(post)
       )
@@ -130,6 +133,26 @@ export const createComment = (id, timestamp, body, author, parentId) => {
   )
 }
 
+export const deleteComment = (id) => {
+  return axios.delete(`http://localhost:5001/comments/${id}`,
+    {
+      headers: { Authorization: 'whatever-you-want' }
+    }
+  ).then(
+    result => result.data
+  )
+}
+
+export const deletePost = (id) => {
+  return axios.delete(`http://localhost:5001/posts/${id}`,
+    {
+      headers: { Authorization: 'whatever-you-want' }
+    }
+  ).then(
+    result => result.data
+  )
+}
+
 const service = {
   getPosts,
   upVote,
@@ -137,7 +160,9 @@ const service = {
   upVoteComment,
   downVoteComment,
   getPost,
-  createComment
+  createComment,
+  deleteComment,
+  deletePost
 }
 
 export default service
