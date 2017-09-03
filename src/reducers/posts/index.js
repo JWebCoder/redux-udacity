@@ -9,10 +9,11 @@ const initialState = {
 const sort = (posts, sortType) => {
   const result = posts.sort(
     (a, b) => {
-      return b[sortType] - a[sortType]
+      return a[sortType] - b[sortType]
     }
   )
-  return result
+
+  return result.reverse()
 }
 
 const posts = (state = initialState, action) => {
@@ -66,7 +67,7 @@ const posts = (state = initialState, action) => {
       const newItems = sort(state.items, action.orderType)
       return {
         ...state,
-        items: newItems,
+        items: [...newItems],
         orderType: action.orderType
       }
     }
