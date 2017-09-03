@@ -15,3 +15,11 @@ export function setOrder(order) {
 export function setCurrentPost(current) {
   return {type: types.SET_CURRENT_POST, current}
 }
+
+export function updateComment(comment, postId) {
+  return {type: types.UPDATE_COMMENT, comment, postId}
+}
+
+export function setCurrentPostFromStore(postId) {
+  return {type: types.SET_CURRENT_POST_FROM_STORE, postId}
+}

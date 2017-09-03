@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import Layout from 'components/Layout'
 import Comment from 'components/Comment'
+import {Link} from 'react-router-dom'
+import uuidv1 from 'uuid/v1'
 import postsService from 'services/posts'
 import { bindActionCreators } from 'redux'
 import * as PostActions from 'reducers/posts/actions'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-
 
 const mapStateToProps = state => (
   {
@@ -24,6 +24,7 @@ class Post extends Component {
   componentDidMount() {
     postsService.getPost(this.props.match.params.post_id).then(
       post => {
+        this.props.actions.setPost(post)
         this.props.actions.setCurrentPost(post)
       }
     )
@@ -44,6 +45,29 @@ class Post extends Component {
       result => {
         this.props.actions.setPost(result)
         this.props.actions.setCurrentPost(result)
+        console.log(result)
+      }
+    )
+  }
+
+  createComment() {
+    postsService.createComment(
+      uuidv1(),
+      (new Date()).getTime(),
+      this.newCommentText.value,
+      this.newCommentAuthor.value,
+      this.props.post.id
+    ).then(
+      result => {
+        const updatedPost = {
+          ...this.props.post,
+          comments: [
+            ...this.props.post.comments,
+            result
+          ]
+        }
+        this.props.actions.setPost(updatedPost)
+        this.props.actions.setCurrentPost(updatedPost)
       }
     )
   }
@@ -71,7 +95,9 @@ class Post extends Component {
             <article className='post-content'>
               <header>
                 <h1>{title}</h1>
-                <div>{author} Votes: {voteScore} <button onClick={() => this.voteUp(post)}>Vote Up</button> <button onClick={() => this.voteDown(post)}>Vote Down</button> </div>
+                <div>
+                  {author} Votes: {voteScore} <button onClick={() => this.voteUp(post)}>Vote Up</button> <button onClick={() => this.voteDown(post)}>Vote Down</button>
+                </div>
               </header>
               <div className='body'>
                 {body}
@@ -81,8 +107,15 @@ class Post extends Component {
               </footer>
             </article>
             <section className='new-comment'>
+              <input
+                type='text'
+                placeholder='Your name'
+                ref={(input) => {this.newCommentAuthor = input}}
+                />
+              <br/>
               <textarea
                 ref={(textarea) => {this.newCommentText = textarea}}
+                placeholder='Insert the comment here'
                 >
               </textarea>
               <div>

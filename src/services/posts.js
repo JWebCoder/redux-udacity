@@ -87,11 +87,57 @@ export const downVote = (id) => {
   )
 }
 
+export const upVoteComment = (id) => {
+  return axios.post(`http://localhost:5001/comments/${id}`,
+    {
+      option: 'upVote'
+    },
+    {
+      headers: { Authorization: 'whatever-you-want' }
+    }
+  ).then(
+    result => result.data
+  )
+}
+
+export const downVoteComment = (id) => {
+  return axios.post(`http://localhost:5001/comments/${id}`,
+    {
+      option: 'downVote'
+    },
+    {
+      headers: { Authorization: 'whatever-you-want' }
+    }
+  ).then(
+    result => result.data
+  )
+}
+
+export const createComment = (id, timestamp, body, author, parentId) => {
+  return axios.post(`http://localhost:5001/comments`,
+    {
+      id,
+      timestamp,
+      body,
+      author,
+      parentId
+    },
+    {
+      headers: { Authorization: 'whatever-you-want' }
+    }
+  ).then(
+    result => result.data
+  )
+}
+
 const service = {
   getPosts,
   upVote,
   downVote,
-  getPost
+  upVoteComment,
+  downVoteComment,
+  getPost,
+  createComment
 }
 
 export default service

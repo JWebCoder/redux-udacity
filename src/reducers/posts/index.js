@@ -1,4 +1,4 @@
-import {SET_POSTS, SET_POST, SET_ORDER, SET_CURRENT_POST} from './ActionTypes'
+import {SET_POSTS, SET_POST, SET_ORDER, SET_CURRENT_POST, SET_CURRENT_POST_FROM_STORE, UPDATE_COMMENT} from './ActionTypes'
 
 const initialState = {
   items: [],
@@ -25,14 +25,19 @@ const posts = (state = initialState, action) => {
       }
     }
     case SET_POST: {
-      const items = state.items.map(
+      let updated = false
+      let items = state.items.map(
         item => {
           if (item.id === action.post.id) {
+            updated = true
             return action.post
           }
           return item
         }
       )
+      if (!updated) {
+        items.push(action.post)
+      }
       return {
         ...state,
         items: items
@@ -41,7 +46,20 @@ const posts = (state = initialState, action) => {
     case SET_CURRENT_POST: {
       return {
         ...state,
-        current: action.current
+        current: {
+          ...action.current
+        }
+      }
+    }
+    case SET_CURRENT_POST_FROM_STORE: {
+      const current = state.items.filter(
+        item => item.id === action.postId
+      )[0]
+      return {
+        ...state,
+        current: {
+          ...current
+        }
       }
     }
     case SET_ORDER: {
@@ -50,6 +68,29 @@ const posts = (state = initialState, action) => {
         ...state,
         items: newItems,
         orderType: action.orderType
+      }
+    }
+    case UPDATE_COMMENT: {
+      const items = state.items.map(
+        item => {
+          if (item.id === action.postId) {
+            item.comments = item.comments.map(
+              comment => {
+                if (comment.id === action.comment.id) {
+                  return action.comment
+                } else {
+                  return comment
+                }
+              }
+            )
+          }
+          return item
+        }
+      )
+
+      return {
+        ...state,
+        items: items
       }
     }
     default:
