@@ -9,17 +9,17 @@ const initialState = {
 const sort = (posts, sortType) => {
   const result = posts.sort(
     (a, b) => {
-      return a[sortType] - b[sortType]
+      return b[sortType] - a[sortType]
     }
   )
 
-  return result.reverse()
+  return result
 }
 
 const posts = (state = initialState, action) => {
   switch (action.type) {
     case SET_POSTS: {
-      const newItems = sort(action.posts, state.sortType)
+      const newItems = sort(action.posts, state.orderType)
       return {
         ...state,
         items: newItems
