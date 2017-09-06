@@ -1,0 +1,52 @@
+.app {
+  .menu {
+    border: 1px solid $color-black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .main-container {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border: 1px solid $color-black;
+    .inline {
+      padding: 10px;
+      text-decoration: none;
+      line-height: 18px;
+
+      .made-by {
+        color: $color-black;
+      }
+    }
+  }
+
+  .menu-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .menu-item {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .menu-link {
+    padding: 10px;
+    display: block;
+
+    &-active {
+      color: $color-white;
+      background-color: $color-black;
+    }
+  }
+}

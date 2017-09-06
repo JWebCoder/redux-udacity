@@ -8,21 +8,24 @@ const Layout = props => {
     'main-container'
   )
   return (
-    <div>
-      <nav>
-        <ul>
-          <li>
-            <NavLink to="/">Home</NavLink>
+    <div className='app'>
+      <nav className='menu'>
+        <ul className='menu-list'>
+          <li className='menu-item'>
+            <NavLink to="/" exact activeClassName='menu-link-active' className='menu-link'>Home</NavLink>
           </li>
-          <li>
-            <NavLink to="/categories">Categories</NavLink>
+          <li className='menu-item'>
+            <NavLink to="/categories" activeClassName='menu-link-active' className='menu-link'>Categories</NavLink>
           </li>
         </ul>
       </nav>
       <div className={containerClass}>
         {props.children}
       </div>
-      Footer
+      <footer className='footer'>
+        <div className='inline made-by'>Made by: João Moura</div>
+        <a className='inline fa fa-github' href='https://github.com/JWebCoder'></a>
+      </footer>
     </div>
   )
 }

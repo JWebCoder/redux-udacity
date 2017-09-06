@@ -1,0 +1,18 @@
+.inline {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+a,
+.link {
+  color: $color-black;
+  background-color: $color-white;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-black;
+    color: $color-white;
+  }
+}
