@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-const Post = props => {
+const PostItem = props => {
   let {title, author, voteScore, comments, id, category} = props.post,
     onVoteUp = props.onVoteUp,
     onVoteDown = props.onVoteDown
@@ -11,7 +11,7 @@ const Post = props => {
       <header>
         <Link to={`/${category}/${id}`}>{title}</Link>
         <div>
-          Votes: {voteScore} <button onClick={() => onVoteUp(props.post)}>Vote Up</button> <button onClick={() => onVoteDown(props.post)}>Vote Down</button>
+          Votes: {voteScore} <button onClick={() => onVoteUp(props.post)}><i className="fa fa-thumbs-o-up"></i></button> <button onClick={() => onVoteDown(props.post)}><i className="fa fa-thumbs-o-down"></i></button>
         </div>
       </header>
       <footer>
@@ -21,4 +21,4 @@ const Post = props => {
   )
 }
 
-export default Post
+export default PostItem

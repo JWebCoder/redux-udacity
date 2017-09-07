@@ -1,21 +1,24 @@
 /* global history */
 import React, {Component} from 'react'
 import Layout from 'components/Layout'
-import Comment from 'components/Comment'
 import postsService from 'services/posts'
+import categoriesService from 'services/categories'
 import { bindActionCreators } from 'redux'
 import * as PostActions from 'reducers/posts/actions'
+import * as CategoriesActions from 'reducers/categories/actions'
 import {connect} from 'react-redux'
+import uuidv1 from 'uuid/v1'
 
 const mapStateToProps = state => (
   {
-    post: state.posts.current
+    post: state.posts.current,
+    categories: state.categories.items
   }
 )
 
 const mapDispatchToProps = dispatch => (
   {
-    actions: bindActionCreators(PostActions, dispatch)
+    actions: bindActionCreators({...PostActions, ...CategoriesActions}, dispatch)
   }
 )
 
@@ -26,6 +29,14 @@ class Post extends Component {
         this.props.actions.setCurrentPost(post)
       }
     )
+
+    if (this.props.categories.length === 0) {
+      categoriesService.getCategories().then(
+        categories => {
+          this.props.actions.setCategories(categories.data)
+        }
+      )
+    }
   }
 
   voteUp(post) {
@@ -62,50 +73,100 @@ class Post extends Component {
     }
   }
 
-  render() {
-    if (Object.keys(this.props.post).length > 0) {
-      let {title, body, author, voteScore, comments, id} = this.props.post,
-        post = this.props.post
-      return(
-        <Layout>
-          <div className='post-view-edit'>
-            <div className='actions'>
-              <button className='button' onClick={() => this.save(post)}>Save</button>
-              <button className='button' onClick={() => this.delete(id)}>Delete</button>
-              <button className='button' onClick={() => this.back()}>Back</button>
-            </div>
-            <article className='post-content'>
-              <header>
-                <h1>{title}</h1>
-                <div>{author} Votes: {voteScore} <button onClick={() => this.voteUp(post)}>Vote Up</button> <button onClick={() => this.voteDown(post)}>Vote Down</button> </div>
-              </header>
-              <div className='body'>
-                {body}
-              </div>
-              <footer>
-                Comments: {comments.length}
-              </footer>
-            </article>
-            <section className='new-comment'>
-              <textarea
-                ref={(textarea) => {this.newCommentText = textarea}}
-                >
-              </textarea>
-              <div>
-                <button className='button' onClick={() => this.createComment()}>Create</button>
-              </div>
-            </section>
-            {comments.map(
-              (comment, index) => (
-                <Comment key={index} data={comment}/>
-              )
-            )}
-          </div>
-        </Layout>
-      )
-    } else {
-      return null
+  updatePost(field, value) {
+    const post = {
+      ...this.props.post,
+      [field]: value
     }
+    this.props.actions.setCurrentPost(post)
+  }
+
+  savePost() {
+    postsService.savePost(this.props.post)
+  }
+
+  createPost() {
+    postsService.createPost({
+      ...this.props.post,
+      id: uuidv1()
+    })
+  }
+
+  render() {
+    let {title, body, author, id} = this.props.post
+    return(
+      <Layout>
+        <div className='post-view-edit'>
+          {!id && (
+            <h1>New post</h1>
+          )}
+          {(id && (
+            <div className='actions'>
+              <div className='menu-item'>
+                <button className='link menu-link' onClick={() => this.savePost()}>Save</button>
+              </div>
+              <div className='menu-item'>
+                <button className='link menu-link' onClick={() => this.delete(id)}>Delete</button>
+              </div>
+              <div className='menu-item'>
+                <button className='link menu-link' onClick={() => this.back()}>Back</button>
+              </div>
+            </div>
+          )) || (
+            <div className='actions'>
+              <div className='menu-item'>
+                <button className='link menu-link' onClick={() => this.createPost()}>Create</button>
+              </div>
+              <div className='menu-item'>
+                <button className='link menu-link' onClick={() => this.back()}>Back</button>
+              </div>
+            </div>
+          )}
+
+
+
+          <article className='post-content'>
+            <header>
+              Title: <input
+                type='text'
+                value={title || ''}
+                onChange={(event) => {
+                  this.updatePost('title', event.target.value);
+                }}
+                />
+              <br/>
+              Author: <input
+                type='text'
+                value={author || ''}
+                onChange={(event) => {
+                  this.updatePost('author', event.target.value);
+                }}
+                />
+            </header>
+            <div className='body'>
+              <textarea
+                value={body || ''}
+                onChange={(event) => {
+                  this.updatePost('body', event.target.value);
+                }}
+                />
+            </div>
+            <select
+              value={this.props.post.category}
+              onChange={(event) => {
+                this.updatePost('category', event.target.value);
+              }}
+              >
+              {this.props.categories.map(
+                (category, index) => (
+                  <option key={index} value={category.name}>{category.name}</option>
+                )
+              )}
+            </select>
+          </article>
+        </div>
+      </Layout>
+    )
   }
 }
 

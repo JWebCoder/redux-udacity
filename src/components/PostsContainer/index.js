@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Post from 'components/Post'
+import PostItem from 'components/PostItem'
 import postsService from 'services/posts'
 import { bindActionCreators } from 'redux'
 import * as PostActions from 'reducers/posts/actions'
@@ -35,7 +35,7 @@ class PostsContainer extends Component {
       <section className='posts-container'>
         {this.props.posts.map(
           (post, index) => (
-            <Post
+            <PostItem
               key={index}
               post={post}
               onVoteUp={(post) => this.voteUp(post)}

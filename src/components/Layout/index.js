@@ -24,7 +24,9 @@ const Layout = props => {
       </div>
       <footer className='footer'>
         <div className='inline made-by'>Made by: João Moura</div>
-        <a className='inline fa fa-github' href='https://github.com/JWebCoder'></a>
+        <a className='inline' href='https://github.com/JWebCoder'>
+          <i className='fa fa-github'></i>
+        </a>
       </footer>
     </div>
   )

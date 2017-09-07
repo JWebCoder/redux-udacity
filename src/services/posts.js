@@ -153,6 +153,32 @@ export const deletePost = (id) => {
   )
 }
 
+export const savePost = (post) => {
+  return axios.put(`http://localhost:5001/posts/${post.id}`,
+    {
+      ...post
+    },
+    {
+      headers: { Authorization: 'whatever-you-want' }
+    }
+  ).then(
+    result => result.data
+  )
+}
+
+export const createPost = (post) => {
+  return axios.post(`http://localhost:5001/posts`,
+    {
+      ...post
+    },
+    {
+      headers: { Authorization: 'whatever-you-want' }
+    }
+  ).then(
+    result => result.data
+  )
+}
+
 const service = {
   getPosts,
   upVote,
@@ -162,7 +188,9 @@ const service = {
   getPost,
   createComment,
   deleteComment,
-  deletePost
+  deletePost,
+  savePost,
+  createPost
 }
 
 export default service

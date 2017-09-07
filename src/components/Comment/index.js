@@ -44,7 +44,7 @@ const Comment = props => {
   return (
     <article className='comment' >
       <header>
-        {author} Votes: {voteScore} <button onClick={() => voteUp(props.data)}>Vote Up</button> <button onClick={() => voteDown(props.data)}>Vote Down</button>
+        {author} Votes: {voteScore} <button onClick={() => voteUp(props.data)}><i className='fa fa-thumbs-o-up'></i></button> <button onClick={() => voteDown(props.data)}><i className='fa fa-thumbs-o-down'></i></button>
       </header>
       {body}
       <footer>

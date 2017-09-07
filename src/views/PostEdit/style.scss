@@ -5,11 +5,12 @@
 
   .actions {
     position: fixed;
-    top: 0px;
-    right: 10px;
+    top: 1px;
+    right: 1px;
 
-    .button {
-      margin: 10px;
+    .link {
+      border: none;
+      font-size: 16px;
     }
   }
 

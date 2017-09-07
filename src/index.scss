@@ -13,6 +13,7 @@ body {
 @import '_helpers';
 @import './components/Layout/style';
 @import './components/Loader/style';
-@import './components/Post/style';
+@import './components/PostsContainer/style';
+@import './components/PostItem/style';
 @import './views/Post/style';
 @import './views/PostEdit/style';

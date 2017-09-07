@@ -82,30 +82,34 @@ class Post extends Component {
   }
 
   render() {
-    if (Object.keys(this.props.post).length > 0) {
+    if (Object.keys(this.props.post).length > 0 && this.props.post.id) {
       let {title, body, author, voteScore, comments, id, category} = this.props.post,
         post = this.props.post
       return(
         <Layout>
           <div className='post-view-edit'>
             <div className='actions'>
-              <Link
-                className='button'
-                to={
-                  {
-                    pathname: `/${category}/${id}/edit`,
-                    state: {fromPost: true}
-                  }
-                }>
-                Edit
-              </Link>
-              <button className='button' onClick={() => this.deletePost()}>Delete</button>
+              <div className='menu-item'>
+                <Link
+                  className='link menu-link'
+                  to={
+                    {
+                      pathname: `/${category}/${id}/edit`,
+                      state: {fromPost: true}
+                    }
+                  }>
+                  Edit
+                </Link>
+              </div>
+              <div className='menu-item'>
+                <button className='menu-link link' onClick={() => this.deletePost()}>Delete</button>
+              </div>
             </div>
             <article className='post-content'>
               <header>
                 <h1>{title}</h1>
                 <div>
-                  {author} Votes: {voteScore} <button onClick={() => this.voteUp(post)}>Vote Up</button> <button onClick={() => this.voteDown(post)}>Vote Down</button>
+                  {author} Votes: {voteScore} <button onClick={() => this.voteUp(post)}><i className='fa fa-thumbs-o-up'></i></button> <button onClick={() => this.voteDown(post)}><i className='fa fa-thumbs-o-down'></i></button>
                 </div>
               </header>
               <div className='body'>
@@ -140,7 +144,11 @@ class Post extends Component {
         </Layout>
       )
     } else {
-      return null
+      return (
+        <Layout>
+          <h1>Post not found</h1>
+        </Layout>
+      )
     }
   }
 }
