@@ -1,0 +1,20 @@
+.comment {
+  .sub-header {
+    margin: 5px 0;
+  }
+
+  .actions {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+
+    button {
+      margin-left: 5px;
+    }
+  }
+
+  .score {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

@@ -10,6 +10,9 @@ const mapDispatchToProps = dispatch => (
     actions: bindActionCreators(PostActions, dispatch)
   }
 )
+
+let commentBeforeEdit
+
 const Comment = props => {
   const voteUp = () => {
     postsService.upVoteComment(props.data.id).then(
@@ -39,16 +42,75 @@ const Comment = props => {
     )
   }
 
-  let {body, author, id, voteScore} = props.data
+  const toggleEditComment = (id) => {
+    commentBeforeEdit = {
+      ...props.data
+    }
+    props.actions.toggleEditComment(id)
+  }
+
+  const saveComment = (comment) => {
+    postsService.saveComment(comment).then(
+      result => {
+        props.actions.updateComment(result, result.parentId)
+        props.actions.setCurrentPostFromStore(result.parentId)
+      }
+    )
+  }
+
+  const cancelEditComment = () => {
+    const comment = {
+      ...commentBeforeEdit
+    }
+    props.actions.updateComment(comment, comment.parentId)
+    props.actions.setCurrentPostFromStore(comment.parentId)
+  }
+
+  const updateComment = (field, value) => {
+    const comment = {
+      ...props.data,
+      [field]: value
+    }
+    props.actions.updateComment(comment, comment.parentId)
+    props.actions.setCurrentPostFromStore(comment.parentId)
+  }
+
+  let {body, author, id, voteScore, parentId, edit} = props.data
 
   return (
-    <article className='comment' >
+    <article className='comment'>
       <header>
-        {author} Votes: {voteScore} <button onClick={() => voteUp(props.data)}><i className='fa fa-thumbs-o-up'></i></button> <button onClick={() => voteDown(props.data)}><i className='fa fa-thumbs-o-down'></i></button>
+        <div>
+          {author}
+        </div>
+        <div className='sub-header'>
+          <div className='score'>
+            Votes: {voteScore}
+          </div>
+          <div className='actions'>
+            <button onClick={() => voteUp(props.data)}><i className='fa fa-thumbs-o-up'></i></button>
+            <button onClick={() => voteDown(props.data)}><i className='fa fa-thumbs-o-down'></i></button>
+            <button onClick={() => toggleEditComment(id)}><i className='fa fa-pencil-square-o'></i></button>
+          </div>
+        </div>
       </header>
-      {body}
+      {edit && (
+        <textarea
+          type='text'
+          value={body}
+          onChange={(event) => {
+            updateComment('body', event.target.value);
+          }}
+          />
+      ) || body}
       <footer>
-        <Link className='button' to={`/comment/${id}`}>Edit</Link>
+        {edit && (
+          <button className='button' onClick={() => saveComment(props.data)}>Save</button>
+        )}
+        {edit && (
+          <button className='button' onClick={() => cancelEditComment()}>Cancel</button>
+        )}
+
         <button className='button' onClick={() => deleteComment(id)}>Delete</button>
       </footer>
     </article>

@@ -101,7 +101,7 @@ class Post extends Component {
             <h1>New post</h1>
           )}
           {(id && (
-            <div className='actions'>
+            <div className='post-actions'>
               <div className='menu-item'>
                 <button className='link menu-link' onClick={() => this.savePost()}>Save</button>
               </div>
@@ -135,13 +135,7 @@ class Post extends Component {
                 }}
                 />
               <br/>
-              Author: <input
-                type='text'
-                value={author || ''}
-                onChange={(event) => {
-                  this.updatePost('author', event.target.value);
-                }}
-                />
+              Author: {author}
             </header>
             <div className='body'>
               <textarea

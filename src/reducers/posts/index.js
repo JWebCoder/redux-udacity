@@ -6,7 +6,8 @@ import {
   SET_CURRENT_POST_FROM_STORE,
   UPDATE_COMMENT,
   DELETE_COMMENT,
-  DELETE_POST
+  DELETE_POST,
+  TOOGLE_EDIT_COMMENT
 } from './ActionTypes'
 
 const initialState = {
@@ -120,6 +121,30 @@ const posts = (state = initialState, action) => {
         items: items
       }
     }
+
+    case TOOGLE_EDIT_COMMENT: {
+      console.log(state.current.comments)
+      const comments = state.current.comments.map(
+        comment => {
+          let newComment = {...comment}
+          delete newComment.edit
+          if (comment.id === action.id) {
+            newComment.edit = true
+          }
+
+          return newComment
+        }
+      )
+
+      return {
+        ...state,
+        current: {
+          ...state.current,
+          comments: [...comments]
+        }
+      }
+    }
+
     case DELETE_POST: {
       const items = state.items.filter(
         item => item.id !== action.postId

@@ -143,6 +143,20 @@ export const deleteComment = (id) => {
   )
 }
 
+export const saveComment = (comment) => {
+  return axios.put(`http://localhost:5001/comments/${comment.id}`,
+    {
+      timestamp: (new Date()).getTime(),
+      body: comment.body
+    },
+    {
+      headers: { Authorization: 'whatever-you-want' }
+    }
+  ).then(
+    result => result.data
+  )
+}
+
 export const deletePost = (id) => {
   return axios.delete(`http://localhost:5001/posts/${id}`,
     {
@@ -190,7 +204,8 @@ const service = {
   deleteComment,
   deletePost,
   savePost,
-  createPost
+  createPost,
+  saveComment
 }
 
 export default service

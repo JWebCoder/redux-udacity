@@ -82,13 +82,15 @@ class Post extends Component {
   }
 
   render() {
+
     if (Object.keys(this.props.post).length > 0 && this.props.post.id) {
       let {title, body, author, voteScore, comments, id, category} = this.props.post,
         post = this.props.post
+
       return(
         <Layout>
           <div className='post-view-edit'>
-            <div className='actions'>
+            <div className='post-actions'>
               <div className='menu-item'>
                 <Link
                   className='link menu-link'
